@@ -40,7 +40,10 @@ function SearchModule(props) {
     }
 
     // TODO: add error handling
-    function searchHandler(query) {
+    function searchHandler(query, clean = false) {
+        if (clean) {
+            query = queryCleaner(query);
+        }
         fetch(`https://customsearch.googleapis.com/customsearch/v1?cx=${SearchCX}&num=10&q=${encodeURIComponent(query)}&key=${GAPIKey}`, {
             method: 'GET',
             headers: {
@@ -50,7 +53,7 @@ function SearchModule(props) {
             return response.json();
         }).then((jsonResponse) => {
             console.log(jsonResponse);
-            props.setQueryResult(jsonResponse);
+            props.setQueryResult(jsonResponse.items);
             props.setLoadingState(false);
         })
     }

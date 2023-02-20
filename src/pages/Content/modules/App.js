@@ -2,6 +2,7 @@ import React from 'react';
 
 import TitleModule from "./TitleModule";
 import SearchModule from "./SearchModule";
+import ContactListModule from "./ContactListModule";
 
 function App() {
     let lastUrl = document.location.href;
@@ -9,7 +10,7 @@ function App() {
     let displayJobString = null;
 
     const [jobPostingTitle, setJobPostingTitle] = React.useState(null);
-    const [isLoadingQuery, setIsLoadingQuery] = React.useState(false);
+    const [isLoadingQuery, setIsLoadingQuery] = React.useState(true);
     const [queryResults, setQueryResults] = React.useState(null);
 
     function newJobPosting() {
@@ -55,6 +56,8 @@ function App() {
             }
             setJobPostingTitle(displayJobAndCompany);
             // TODO kick off search here and send the results to the iframe
+            // option 1, abstract the searcHandler function to a separate file
+            // option 2, create a manual submit event
         }
     }).observe(document, {subtree: true, childList: true});
 
@@ -62,6 +65,7 @@ function App() {
         <div >
             <TitleModule title={jobPostingTitle} />
             <SearchModule searchQuery={jobPostingTitle} setLoadingState={setIsLoadingQuery} setQueryResult={setQueryResults}/>
+            <ContactListModule isLoadingQuery={isLoadingQuery} queryResults={queryResults}/>
         </div>
     )
 }
