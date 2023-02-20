@@ -25,11 +25,9 @@ function ContactListModule(props) {
         return <p>loading...</p>
     }
     return <ul>
-        console.log("in contact list module")
-        {props.queryResults.map((result) => {
+        {props.queryResults.map((result, i) => {
             const parsedResult = queryParser(result);
-            console.log('parsedResult', parsedResult);
-            return <li>
+            return <li key={i}>
                 <ContactModule contactName={parsedResult.name} contactOccupation={parsedResult.occupation} />
             </li>
         })}
