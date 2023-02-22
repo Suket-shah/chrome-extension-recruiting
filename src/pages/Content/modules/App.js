@@ -9,7 +9,7 @@ import { SearchCX, GAPI } from "../utils/Constant";
 
 
 let jobFlag = false;
-function App() {
+function App(props) {
     let lastUrl = document.location.href;
 
     const [jobPostingTitle, setJobPostingTitle] = React.useState(null);
@@ -78,11 +78,19 @@ function App() {
         }
     }).observe(document, {subtree: true, childList: true});
 
+    // function removeSidebar() {
+    //     console.log("Remove sidebar");
+    // }
     return (
-        <div >
-            <TitleModule title={jobPostingTitle} />
-            <SearchModule searchQuery={jobPostingTitle} setLoadingState={setIsLoadingQuery} setQueryResult={setQueryResults} searchHandler={searchHandler}/>
-            <ContactListModule isLoadingQuery={isLoadingQuery} queryResults={queryResults}/>
+        <div>
+            {/*<div>*/}
+            {/*    <button onClick={removeSidebar}>></button>*/}
+            {/*</div>*/}
+            <div >
+                <TitleModule title={jobPostingTitle} />
+                <SearchModule searchQuery={jobPostingTitle} setLoadingState={setIsLoadingQuery} setQueryResult={setQueryResults} searchHandler={searchHandler}/>
+                <ContactListModule isLoadingQuery={isLoadingQuery} queryResults={queryResults}/>
+            </div>
         </div>
     )
 }

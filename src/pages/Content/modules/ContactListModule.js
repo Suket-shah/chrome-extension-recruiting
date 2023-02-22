@@ -1,6 +1,11 @@
 import React from 'react';
 import ContactModule from "./ContactModule";
 
+const contactListModuleStyle = {
+    listStyleType: "none",
+    padding: "0px",
+}
+
 function punctuationRemover(str) {
     return str.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, '');
 }
@@ -40,7 +45,7 @@ function ContactListModule(props) {
     if (props.queryResults === null || props.queryResults.length === 0) {
         return <p>No results found</p>
     }
-    return <ul>
+    return <ul style={contactListModuleStyle}>
         {props.queryResults.map((result, i) => {
             const parsedResult = queryParser(result);
             return <li key={i}>
