@@ -6,9 +6,6 @@ import Frame from 'react-frame-component';
 
 console.log('Content script works!');
 
-let iframeWidth = "20%";
-// const [iFrameWidth, setIframeWidth] = React.useState("20%");
-
 const frameStyle = {
     background: "green",
     height: "100%",
@@ -45,29 +42,17 @@ const buttonStyle = {
     userSelect: 'none',
 }
 
-// function changeFrame() {
-//     if (iframeWidth === "20%") {
-//         iframeWidth = "5%";
-//     } else {
-//         iframeWidth = "20%";
-//     }
-//     console.log(iframeWidth);
-// }
 const container = document.body.children[0];
 const root = createRoot(container);
-function onSidePanelWidthChange(width) {
+
+function onSidePanelWidthChange(width, visibility = true) {
     const frame = document.getElementById('sidePanelIframe');
     frame.style.width = width;
-    if (frame.style.visibility === 'hidden') {
+    console.log("visibility", visibility);
+    if (visibility) {
         frame.style.visibility = 'visible';
     } else {
         frame.style.visibility = 'hidden';
-    }
-    const insideFrame = document.getElementById('insideFrameID');
-    console.log(document.readyState);
-    if (insideFrame) {
-        console.log("we finally made it!");
-        insideFrame.style.visibility = 'hidden';
     }
 }
 
@@ -77,7 +62,6 @@ root.render(
             <button style={buttonStyle} onClick={() => onSidePanelWidthChange('350px')}>RecruiterPlus</button>
         </Frame>
         <Frame style={frameStyle} id={'sidePanelIframe'}>
-            {/*<button onClick={changeFrame}>move in</button>*/}
             <App onWidthChange={onSidePanelWidthChange}/>
         </Frame>
     </div>);

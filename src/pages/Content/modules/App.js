@@ -16,13 +16,12 @@ function App(props) {
     const [isLoadingQuery, setIsLoadingQuery] = React.useState(true);
     const [queryResults, setQueryResults] = React.useState(null);
 
-    function newJobPosting() {
-        console.log("New job posting, add chrome extension sidebar");
-        // todo add logic of updating iframe size and content
-    }
-
-    // TODO: add error handling
+    // TODO: remove searches if RecruiterPlus tab is not being displayed currently
     function searchHandler(query, clean = false) {
+        if (props.visibility === false) {
+            console.log("false visibility detected");
+            return;
+        }
         setIsLoadingQuery(true);
         if (clean) {
             query = queryCleaner(query);
@@ -44,47 +43,35 @@ function App(props) {
         });
     }
 
-    // setting the initial job posting state
-    if (lastUrl.includes('linkedin.com/jobs') && lastUrl.includes('currentJobId')) {
-        // newJobPosting();
-    } else {
-        console.log("Not a jobs page, remove chrome extension sidebar");
-    }
-
     // setting up the observer to watch for URL changes
     new MutationObserver(() => {
         const currentUrl = document.location.href;
         const currentJob = document.querySelector('.jobs-unified-top-card__job-title');
         const currentCompany = document.querySelector('.jobs-unified-top-card__company-name');
 
+        const frameVisibility = !(document.getElementById('sidePanelIframe').style.visibility === 'hidden');
+
         if (currentUrl !== lastUrl) {
             lastUrl = currentUrl;
             jobFlag = false;
-
-            if (currentUrl.includes('linkedin.com/jobs') && currentUrl.includes('currentJobId')) {
-                newJobPosting();
-            } else {
-                console.log("Not on jobs page, remove chrome extension sidebar");
-            }
         }
 
         if (currentJob && currentCompany && currentJob.innerText !== "" && currentCompany.innerText !== "" && !jobFlag) {
             // ready to search
             const displayJobString = currentJob.innerText + " at " + currentCompany.innerText;
             setJobPostingTitle(displayJobString);
-            searchHandler(displayJobString, true);
+            if (frameVisibility) {
+                searchHandler(displayJobString, true);
+            }
 
             jobFlag = true;
         }
     }).observe(document, {subtree: true, childList: true});
 
-    // function removeSidebar() {
-    //     console.log("Remove sidebar");
-    // }
     return (
         <div>
             <div>
-                <button onClick={() => props.onWidthChange('50px')}>></button>
+                <button onClick={() => props.onWidthChange('50px', false)}>></button>
             </div>
             <div id={'insideFrameID'}>
                 <TitleModule title={jobPostingTitle} />
