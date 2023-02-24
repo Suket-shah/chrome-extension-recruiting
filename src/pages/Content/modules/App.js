@@ -83,10 +83,10 @@ function App(props) {
     // }
     return (
         <div>
-            {/*<div>*/}
-            {/*    <button onClick={removeSidebar}>></button>*/}
-            {/*</div>*/}
-            <div >
+            <div>
+                <button onClick={() => props.onWidthChange('50px')}>></button>
+            </div>
+            <div id={'insideFrameID'}>
                 <TitleModule title={jobPostingTitle} />
                 <SearchModule searchQuery={jobPostingTitle} setLoadingState={setIsLoadingQuery} setQueryResult={setQueryResults} searchHandler={searchHandler}/>
                 <ContactListModule isLoadingQuery={isLoadingQuery} queryResults={queryResults}/>
