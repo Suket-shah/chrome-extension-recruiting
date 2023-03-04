@@ -39,6 +39,9 @@ function queryParser(queryResult) {
     return parsedResult
 }
 function ContactListModule(props) {
+    if (props.tutorial) {
+        return <p>Click on a job posting to see a list of contacts</p>
+    }
     if (props.isLoadingQuery || props.queryResults === undefined) {
         return <p>loading...</p>
     }

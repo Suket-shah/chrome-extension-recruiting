@@ -1,31 +1,36 @@
 import React from "react";
-import ReactDOM from "react-dom";
 
 import queryCleaner from "../utils/QueryCleaner";
 
 const searchDivStyle = {
     textAlign: "center",
+    fontFamily: "Sans-Serif",
 }
 
 const searchBarStyle = {
-    border: "1px solid grey",
-    borderRadius: "5px",
-    height: "25px",
-    width: "75vw",
+    borderRadius: "3px",
+    height: "30px",
+    width: "70%",
     padding: "2px 10px 2px 10px",
     outline: "none",
-    background: "#f5f5f5",
+    background: "#ebf1f7",
+    border: "0px",
     margin: "auto",
 }
 
 const buttonStyle = {
-    border: "1px solid grey",
+    border: "0px",
     height: "30px",
     width: "10vw",
-    borderRadius: "5px",
+    borderRadius: "3px",
     outline: "none",
-    margin: "auto",
+    marginTop: "5px",
     cursor: "pointer",
+    background: "transparent",
+}
+
+const subfield = {
+    fontSize: "10px",
 }
 
 function SearchModule(props) {
@@ -40,8 +45,8 @@ function SearchModule(props) {
         props.searchHandler(enteredQuery);
     }
 
-    return (<div>
-        <div style={searchDivStyle}>
+    return (<div style={searchDivStyle}>
+        <div>
             <form onSubmit={executeQuery}>
                 <input type="text" placeholder="EX. Google Internship AND UT" ref={queryRef} defaultValue={queryCleaner(props.searchQuery)} style={searchBarStyle}/>
                 <button style={buttonStyle}>
@@ -53,7 +58,7 @@ function SearchModule(props) {
                 </button>
             </form>
         </div>
-        <div>
+        <div style={subfield}>
             <p>Powered by Linkedin X-Ray </p>
         </div>
         </div>

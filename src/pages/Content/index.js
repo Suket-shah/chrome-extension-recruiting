@@ -7,13 +7,14 @@ import Frame from 'react-frame-component';
 console.log('Content script works!');
 
 const frameStyle = {
-    background: "green",
+    background: "#86888a",
     height: "100%",
     width: '350px',
     position: "fixed",
     top: "0px",
     right: "0px",
     zIndex: "9999",
+    fontFamily: "Sans-Serif",
 }
 
 const buttonFrameStyle = {
@@ -23,12 +24,12 @@ const buttonFrameStyle = {
     right: "0px",
     zIndex: "9998",
 }
+
 const buttonStyle = {
     backgroundImage: 'linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%)',
     borderRadius: '8px',
     borderStyle: 'none',
     boxSizing: 'border-box',
-
     color: '#FFFFFF',
     cursor: 'pointer',
     flexShrink: '0',

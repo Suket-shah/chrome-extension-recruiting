@@ -6,7 +6,13 @@ const contactModuleStyle = {
     backgroundColor: "white",
     display: "flex",
     flexDirection: "row",
-    padding: "10px 20px",
+    padding: "10px 15px",
+    borderRadius: "8px",
+    border: "1px solid #e6e6e6",
+    boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+    margin: "10px 0px",
+    color: "black",
+    fontFamily: "Sans-Serif",
 }
 
 const imageStyle = {
@@ -16,15 +22,15 @@ const imageStyle = {
 }
 
 const nameStyle = {
-    fontSize: "24px",
+    fontSize: "20px",
     fontWeight: "bold",
-    textDecoration: "underline",
     margin: "0px",
+    mouse: "pointer",
 }
 
 const occupationStyle = {
-    fontSize: "17px",
-    fontWeight: "bold",
+    fontSize: "15px",
+    fontWeight: "semibold",
     margin: "0px",
 }
 
@@ -32,12 +38,16 @@ const leftMargin = {
     marginLeft: "15px",
 }
 
+const underlineRemove = {
+    textDecoration: "none",
+}
+
 function ContactModule(props) {
     return (
         <div style={contactModuleStyle} className={classes.test}>
             <img src={props.contactImage} alt="contact" style={imageStyle} />
             <div style={leftMargin}>
-                <a href={props.contactLinkedin} target="_blank" rel="noopener noreferrer"><h1 style={nameStyle}>{props.contactName}</h1></a>
+                <a href={props.contactLinkedin} target="_blank" rel="noopener noreferrer" style={underlineRemove}><h1 style={nameStyle}>{props.contactName}</h1></a>
                 <h2 style={occupationStyle}>{props.contactOccupation}</h2>
             </div>
         </div>

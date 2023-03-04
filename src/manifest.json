@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "RecruiterExtension",
-  "description": "This is a sample extension that works to help recruiting",
+  "description": "This extension speeds up the process to find relevant connections to make on LinkedIn",
   "options_page": "options.html",
   "action": {
     "default_popup": "popup.html",
