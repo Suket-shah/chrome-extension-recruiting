@@ -13,10 +13,12 @@
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
   },
   "dependencies": {
+    "firebase": "^9.17.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-frame-component": "^5.2.6",
-    "react-portal": "^4.2.2"
+    "react-portal": "^4.2.2",
+    "react-router-dom": "^6.8.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
