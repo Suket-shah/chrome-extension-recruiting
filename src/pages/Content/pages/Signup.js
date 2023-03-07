@@ -16,7 +16,8 @@ function Signup(props) {
             .then((userCredential) => {
                 const user = userCredential.user;
                 localStorage.setItem("recruitPlusAuthToken", JSON.stringify(user?.accessToken));
-                navigate("/");
+                localStorage.setItem("recruitPlusUID", JSON.stringify(user?.uid));
+                navigate("/userPref");
             })
             .catch((error) => {
                 const errorCode = error.code;

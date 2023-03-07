@@ -6,6 +6,9 @@ import ContactListModule from "../modules/ContactListModule";
 import ExitButtonModule from "../modules/ExitButtonModule";
 import queryCleaner from "../utils/QueryCleaner";
 import {GAPI, SearchCX} from "../utils/Constant";
+import {doc, getDoc, FieldPath} from "firebase/firestore";
+import {db} from "../utils/firebase";
+import {removeQuotes} from "../utils/QueryCleaner";
 
 const horizontalAlign = {
     display: "flex",
@@ -21,8 +24,38 @@ function Home(props) {
     const [isLoadingQuery, setIsLoadingQuery] = React.useState(true);
     const [queryResults, setQueryResults] = React.useState(null);
     const [tutorial, setTutorial] = React.useState(true);
+    const [school, setSchool] = React.useState("");
+    const [major, setMajor] = React.useState("");
+    const [clubs, setClubs] = React.useState("");
 
-    function searchHandler(query, clean = false) {
+    async function setUserPref() {
+        if (localStorage.getItem("recruitPlusUID") === null) {
+            return "";
+        }
+
+        const docRef = doc(db, "users", localStorage.getItem("recruitPlusUID"));
+        try {
+            const docRefResponse = await getDoc(docRef);
+            if (docRefResponse.exists()) {
+                const schoolField = removeQuotes(JSON.stringify(docRefResponse.get("school").school));
+                const majorField = removeQuotes(JSON.stringify(docRefResponse.get("major").major));
+                let clubField = "";
+                setSchool(schoolField);
+                setMajor(majorField);
+                if (docRefResponse.get(new FieldPath("clubs")) !== undefined) {
+                    clubField = removeQuotes(JSON.stringify(docRefResponse.get("clubs").clubs));
+                    setClubs(clubField);
+                }
+                return [schoolField, majorField, clubField];
+            }
+        } catch (e) {
+            console.log("Error getting document for user preferences:", e);
+        }
+        return null;
+    }
+
+    // TODO: make it so that this function waits on the setUserPref() function to finish
+    async function searchHandler(query, clean = false) {
         if (props.visibility === false) {
             console.log("false visibility detected");
             return;
@@ -30,6 +63,14 @@ function Home(props) {
         setIsLoadingQuery(true);
         if (clean) {
             query = queryCleaner(query);
+        }
+        let returnedVal = []
+        if (school === "" || major === "") {
+            returnedVal = await setUserPref();
+        }
+        query += " AND " + returnedVal[0] + " AND " + returnedVal[1];
+        if ( returnedVal[2] !== "") {
+            query += " AND " + returnedVal[2];
         }
         console.log("this query should happen once", query);
         fetch(`https://customsearch.googleapis.com/customsearch/v1?cx=${SearchCX}&num=10&q=${encodeURIComponent(query)}&key=${GAPI}`, {
@@ -49,7 +90,7 @@ function Home(props) {
     }
 
     // setting up the observer to watch for URL changes
-    new MutationObserver(() => {
+    new MutationObserver(async () => {
         const currentUrl = document.location.href;
         const currentJob = document.querySelector('.jobs-unified-top-card__job-title');
         const currentCompany = document.querySelector('.jobs-unified-top-card__company-name');
@@ -63,14 +104,13 @@ function Home(props) {
 
         if (currentJob && currentCompany && currentJob.innerText !== "" && currentCompany.innerText !== "" && !jobFlag) {
             // ready to search
+            jobFlag = true;
             setTutorial(false);
             const displayJobString = currentJob.innerText + " at " + currentCompany.innerText;
             setJobPostingTitle(displayJobString);
             if (frameVisibility) {
-                searchHandler(displayJobString, true);
+                await searchHandler(displayJobString, true);
             }
-
-            jobFlag = true;
         }
     }).observe(document, {subtree: true, childList: true});
 

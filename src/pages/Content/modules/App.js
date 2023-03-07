@@ -3,6 +3,7 @@ import React from 'react';
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
+import UserPref from "../pages/UserPref";
 
 import { BrowserRouter as Router} from "react-router-dom";
 import { Routes, Route } from 'react-router-dom';
@@ -21,6 +22,7 @@ function App(props) {
                     <Routes>
                         <Route element={<PrivateRoutes/>} authToken={authToken}>
                             <Route path="/" element={<Home onWidthChange={props.onWidthChange}/>} ></Route>
+                            <Route path="/userPref" element={<UserPref/>} ></Route>
                         </Route>
                         <Route path="/login" element={<Login/>} setAuthToken={setAuthToken} setTest={setTest} test={test}/>
                         <Route path="/signup" element={<Signup/>} setAuthToken={setAuthToken}/>

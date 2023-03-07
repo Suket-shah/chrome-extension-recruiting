@@ -1,5 +1,6 @@
 import React from "react";
-
+import { doc, getDoc } from "firebase/firestore";
+import {db} from "../utils/firebase";
 import queryCleaner from "../utils/QueryCleaner";
 
 const searchDivStyle = {
@@ -39,9 +40,7 @@ function SearchModule(props) {
 
     function executeQuery(event) {
         event.preventDefault();
-        const enteredQuery = queryRef.current.value;
-        console.log("executing query", enteredQuery);
-        // TODO: generate the post request and send it to the server
+        const enteredQuery = queryRef.current?.value;
         props.searchHandler(enteredQuery);
     }
 

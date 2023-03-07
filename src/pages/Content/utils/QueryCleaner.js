@@ -50,4 +50,5 @@ function queryCleaner(query) {
     return query;
 }
 
+export {removeQuotes};
 export default queryCleaner;
