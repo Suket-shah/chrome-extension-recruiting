@@ -12,7 +12,7 @@ const buttonStyle = {
 
 function exitButtonModule(props) {
     return (<div>
-        <button style= {buttonStyle} onClick={() => props.onWidthChange('50px', false)}>
+        <button style= {buttonStyle} onClick={() => props.onWidthChange('1px', false)}>
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                  className="bi bi-x" viewBox="0 0 16 16" id="IconChangeColor">
                 <path

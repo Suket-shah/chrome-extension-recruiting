@@ -34,11 +34,13 @@ function removeCoop(query) {
     return query.replace(/co-op/gi, '');
 }
 
+function removeDoubleSpaces(query) {
+    return query.replace(/\s{2,}/g, ' ');
+}
 function queryCleaner(query) {
     if (query === null) {
         return "";
     }
-    query = removeParentheses(query);
     query = removeQuotes(query);
     query = removePunctuation(query);
     query = removeYears(query);
@@ -47,8 +49,9 @@ function queryCleaner(query) {
     query = removeInternship(query);
     query = removeIntern(query);
     query = removeCoop(query);
+    query = removeDoubleSpaces(query);
     return query;
 }
 
-export {removeQuotes};
+export {removeQuotes, removeDoubleSpaces};
 export default queryCleaner;

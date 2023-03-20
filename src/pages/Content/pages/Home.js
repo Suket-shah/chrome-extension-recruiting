@@ -8,7 +8,7 @@ import queryCleaner from "../utils/QueryCleaner";
 import {GAPI, SearchCX} from "../utils/Constant";
 import {doc, getDoc, FieldPath} from "firebase/firestore";
 import {db} from "../utils/firebase";
-import {removeQuotes} from "../utils/QueryCleaner";
+import {removeQuotes, removeDoubleSpaces} from "../utils/QueryCleaner";
 
 const horizontalAlign = {
     display: "flex",
@@ -55,23 +55,31 @@ function Home(props) {
     }
 
     // TODO: make it so that this function waits on the setUserPref() function to finish
-    async function searchHandler(query, clean = false) {
+    async function searchHandler(query, clean = false, addUserPref = true) {
         if (props.visibility === false) {
             console.log("false visibility detected");
             return;
         }
+        console.log("searchHandler() called", query);
         setIsLoadingQuery(true);
         if (clean) {
             query = queryCleaner(query);
         }
+
         let returnedVal = []
-        if (school === "" || major === "") {
-            returnedVal = await setUserPref();
+
+        if (addUserPref) {
+            if (school === "" || major === "") {
+                console.log("awaiting setUserPref()):");
+                returnedVal = await setUserPref();
+            }
+            query += " AND ((" + returnedVal[0] + ") OR (" + returnedVal[1] + ")";
+            if (returnedVal[2] !== "") {
+                query += " OR (" + returnedVal[2];
+            }
+            query += " )";
         }
-        query += " AND " + returnedVal[0] + " AND " + returnedVal[1];
-        if ( returnedVal[2] !== "") {
-            query += " AND " + returnedVal[2];
-        }
+
         console.log("this query should happen once", query);
         fetch(`https://customsearch.googleapis.com/customsearch/v1?cx=${SearchCX}&num=10&q=${encodeURIComponent(query)}&key=${GAPI}`, {
             method: 'GET',
@@ -82,6 +90,13 @@ function Home(props) {
             return response.json();
         }).then((jsonResponse) => {
             console.log(jsonResponse);
+            console.log("json response occured");
+            if (jsonResponse.items === undefined || jsonResponse.items.length === 0) {
+                // setQueryResults([]);
+                // setIsLoadingQuery(false);
+                console.log("no results found");
+                return;
+            }
             setQueryResults(jsonResponse.items);
             setIsLoadingQuery(false);
         }).catch((error) => {
@@ -106,10 +121,12 @@ function Home(props) {
             // ready to search
             jobFlag = true;
             setTutorial(false);
-            const displayJobString = currentJob.innerText + " at " + currentCompany.innerText;
+            let displayJobString = currentJob.innerText + " at " + currentCompany.innerText;
+            displayJobString = removeDoubleSpaces(displayJobString);
             setJobPostingTitle(displayJobString);
             if (frameVisibility) {
-                await searchHandler(displayJobString, true);
+                const queryInput = "(" + currentCompany.innerText + ") AND (" + currentJob.innerText + ")";
+                await searchHandler(queryInput, true);
             }
         }
     }).observe(document, {subtree: true, childList: true});

@@ -30,12 +30,19 @@ function linkedinUrlFinder(queryResult) {
     return linkedin_url;
 }
 
+function descriptionFinder(queryResult) {
+    let description = queryResult.snippet;
+    return description;
+}
+
 function queryParser(queryResult) {
+    console.log(queryResult);
     let parsedResult = {};
     parsedResult.name = nameFinder(queryResult.title);
     parsedResult.occupation = occupationFinder(queryResult.title);
     parsedResult.image_url = imageUrlFinder(queryResult);
     parsedResult.linkedin_url = linkedinUrlFinder(queryResult);
+    // parsedResult.description = descriptionFinder(queryResult);
     return parsedResult
 }
 function ContactListModule(props) {
@@ -48,6 +55,7 @@ function ContactListModule(props) {
     if (props.queryResults === null || props.queryResults.length === 0) {
         return <p>No results found</p>
     }
+    console.log("about to print contact lists");
     return <ul style={contactListModuleStyle}>
         {props.queryResults.map((result, i) => {
             const parsedResult = queryParser(result);

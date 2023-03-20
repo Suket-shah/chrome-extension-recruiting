@@ -41,7 +41,7 @@ function SearchModule(props) {
     function executeQuery(event) {
         event.preventDefault();
         const enteredQuery = queryRef.current?.value;
-        props.searchHandler(enteredQuery);
+        props.searchHandler(enteredQuery, false, false);
     }
 
     return (<div style={searchDivStyle}>
