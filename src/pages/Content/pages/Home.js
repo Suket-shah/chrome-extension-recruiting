@@ -28,6 +28,8 @@ function Home(props) {
     const [major, setMajor] = React.useState("");
     const [clubs, setClubs] = React.useState("");
 
+    console.log("Home.js is almost rendered");
+
     async function setUserPref() {
         if (localStorage.getItem("recruitPlusUID") === null) {
             return "";
@@ -115,6 +117,10 @@ function Home(props) {
         if (currentUrl !== lastUrl) {
             lastUrl = currentUrl;
             jobFlag = false;
+            console.log("url changed");
+            if (currentUrl.includes("jobs")) {
+                props.onWidthChange("350px", true);
+            }
         }
 
         if (currentJob && currentCompany && currentJob.innerText !== "" && currentCompany.innerText !== "" && !jobFlag) {
@@ -130,7 +136,7 @@ function Home(props) {
             }
         }
     }).observe(document, {subtree: true, childList: true});
-
+    console.log("Home.js rendered");
     return (
         <div>
             <div id={'insideFrameID'}>

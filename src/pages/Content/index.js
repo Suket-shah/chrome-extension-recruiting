@@ -6,15 +6,28 @@ import Frame from 'react-frame-component';
 
 console.log('Content script works!');
 
+function testJobPostingPage() {
+    return /http(s)?:\/\/www.linkedin.com\/jobs\/.*/.test(window.location.href);
+}
+
+let initialWidth = '1px';
+let initialVisibility = false;
+
+if (testJobPostingPage()) {
+    initialWidth = '350px';
+    initialVisibility = true;
+}
+
 const frameStyle = {
     background: "#86888a",
     height: "100%",
-    width: '350px',
+    width: initialWidth,
     position: "fixed",
     top: "0px",
     right: "0px",
     zIndex: "9999",
     fontFamily: "Sans-Serif",
+    visibility: initialVisibility ? 'visible' : 'hidden',
 }
 
 const buttonFrameStyle = {
@@ -56,6 +69,8 @@ function onSidePanelWidthChange(width, visibility = true) {
         frame.style.visibility = 'hidden';
     }
 }
+
+
 
 root.render(
     <div>

@@ -5,7 +5,7 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import UserPref from "../pages/UserPref";
 
-import { BrowserRouter as Router} from "react-router-dom";
+import { HashRouter as Router} from "react-router-dom";
 import { Routes, Route } from 'react-router-dom';
 import PrivateRoutes from "../utils/PrivateRoutes";
 
@@ -15,6 +15,7 @@ function App(props) {
     const [authToken, setAuthToken] = React.useState(null);
     const [test, setTest] = React.useState(null);
 
+    console.log("app is being rendered");
     return (
         <Router>
             <div>
