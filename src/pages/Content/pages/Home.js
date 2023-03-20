@@ -6,9 +6,11 @@ import ContactListModule from "../modules/ContactListModule";
 import ExitButtonModule from "../modules/ExitButtonModule";
 import queryCleaner from "../utils/QueryCleaner";
 import {GAPI, SearchCX} from "../utils/Constant";
-import {doc, getDoc, FieldPath} from "firebase/firestore";
 import {db} from "../utils/firebase";
-import {removeQuotes, removeDoubleSpaces} from "../utils/QueryCleaner";
+import {removeQuotes} from "../utils/QueryCleaner";
+import titleCleaner from "../utils/TitleCleaner";
+
+import {doc, getDoc, FieldPath} from "firebase/firestore";
 
 const horizontalAlign = {
     display: "flex",
@@ -28,7 +30,6 @@ function Home(props) {
     const [major, setMajor] = React.useState("");
     const [clubs, setClubs] = React.useState("");
 
-    console.log("Home.js is almost rendered");
 
     async function setUserPref() {
         if (localStorage.getItem("recruitPlusUID") === null) {
@@ -59,10 +60,8 @@ function Home(props) {
     // TODO: make it so that this function waits on the setUserPref() function to finish
     async function searchHandler(query, clean = false, addUserPref = true) {
         if (props.visibility === false) {
-            console.log("false visibility detected");
             return;
         }
-        console.log("searchHandler() called", query);
         setIsLoadingQuery(true);
         if (clean) {
             query = queryCleaner(query);
@@ -72,7 +71,6 @@ function Home(props) {
 
         if (addUserPref) {
             if (school === "" || major === "") {
-                console.log("awaiting setUserPref()):");
                 returnedVal = await setUserPref();
             }
             query += " AND ((" + returnedVal[0] + ") OR (" + returnedVal[1] + ")";
@@ -94,8 +92,8 @@ function Home(props) {
             console.log(jsonResponse);
             console.log("json response occured");
             if (jsonResponse.items === undefined || jsonResponse.items.length === 0) {
-                // setQueryResults([]);
-                // setIsLoadingQuery(false);
+                setQueryResults([]);
+                setIsLoadingQuery(false);
                 console.log("no results found");
                 return;
             }
@@ -128,7 +126,7 @@ function Home(props) {
             jobFlag = true;
             setTutorial(false);
             let displayJobString = currentJob.innerText + " at " + currentCompany.innerText;
-            displayJobString = removeDoubleSpaces(displayJobString);
+            displayJobString = titleCleaner(displayJobString);
             setJobPostingTitle(displayJobString);
             if (frameVisibility) {
                 const queryInput = "(" + currentCompany.innerText + ") AND (" + currentJob.innerText + ")";

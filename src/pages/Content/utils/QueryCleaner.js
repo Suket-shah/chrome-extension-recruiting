@@ -1,7 +1,3 @@
-function removeParentheses(query) {
-    return query.replace(/\([^)]*\)/g, '');
-}
-
 function removeQuotes(query) {
     return query.replace(/"/g, '');
 }
@@ -34,9 +30,6 @@ function removeCoop(query) {
     return query.replace(/co-op/gi, '');
 }
 
-function removeDoubleSpaces(query) {
-    return query.replace(/\s{2,}/g, ' ');
-}
 function queryCleaner(query) {
     if (query === null) {
         return "";
@@ -49,9 +42,8 @@ function queryCleaner(query) {
     query = removeInternship(query);
     query = removeIntern(query);
     query = removeCoop(query);
-    query = removeDoubleSpaces(query);
     return query;
 }
 
-export {removeQuotes, removeDoubleSpaces};
+export {removeQuotes};
 export default queryCleaner;

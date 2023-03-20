@@ -55,7 +55,6 @@ function ContactListModule(props) {
     if (props.queryResults === null || props.queryResults.length === 0) {
         return <p>No results found</p>
     }
-    console.log("about to print contact lists");
     return <ul style={contactListModuleStyle}>
         {props.queryResults.map((result, i) => {
             const parsedResult = queryParser(result);
