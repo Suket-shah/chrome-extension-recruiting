@@ -4,8 +4,7 @@ import classes from "./ContactModule.module.css";
 
 const contactModuleStyle = {
     backgroundColor: "white",
-    display: "flex",
-    flexDirection: "row",
+    // display: "flex",
     padding: "10px 15px",
     borderRadius: "8px",
     border: "1px solid #e6e6e6",
@@ -13,6 +12,11 @@ const contactModuleStyle = {
     margin: "10px 0px",
     color: "black",
     fontFamily: "Sans-Serif",
+}
+
+const flexStyle = {
+    display: "flex",
+    flexDirection: "row",
 }
 
 const imageStyle = {
@@ -44,13 +48,20 @@ const underlineRemove = {
 
 function ContactModule(props) {
     return (
-        <div style={contactModuleStyle} className={classes.test}>
-            <img src={props.contactImage} alt="contact" style={imageStyle} />
-            <div style={leftMargin}>
-                <a href={props.contactLinkedin} target="_blank" rel="noopener noreferrer" style={underlineRemove}><h1 style={nameStyle}>{props.contactName}</h1></a>
-                <h2 style={occupationStyle}>{props.contactOccupation}</h2>
+            <div style={contactModuleStyle} className={classes.test}>
+                <div style={flexStyle}>
+                    <img src={props.contactImage} alt="contact" style={imageStyle} />
+                    <div style={leftMargin}>
+                        <a href={props.contactLinkedin} target="_blank" rel="noopener noreferrer" style={underlineRemove}><h1 style={nameStyle}>{props.contactName}</h1></a>
+                        <h2 style={occupationStyle}>{props.contactOccupation}</h2>
+                    </div>
+                </div>
+                <div>
+                    <p>{props.contactDescription}</p>
+                </div>
             </div>
-        </div>
+
+
     )
 }
 

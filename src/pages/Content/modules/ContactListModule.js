@@ -42,7 +42,7 @@ function queryParser(queryResult) {
     parsedResult.occupation = occupationFinder(queryResult.title);
     parsedResult.image_url = imageUrlFinder(queryResult);
     parsedResult.linkedin_url = linkedinUrlFinder(queryResult);
-    // parsedResult.description = descriptionFinder(queryResult);
+    parsedResult.description = descriptionFinder(queryResult);
     return parsedResult
 }
 function ContactListModule(props) {
@@ -59,7 +59,13 @@ function ContactListModule(props) {
         {props.queryResults.map((result, i) => {
             const parsedResult = queryParser(result);
             return <li key={i}>
-                <ContactModule contactName={parsedResult.name} contactOccupation={parsedResult.occupation} contactImage={parsedResult.image_url} contactLinkedin={parsedResult.linkedin_url}/>
+                <ContactModule
+                    contactName={parsedResult.name}
+                    contactOccupation={parsedResult.occupation}
+                    contactImage={parsedResult.image_url}
+                    contactLinkedin={parsedResult.linkedin_url}
+                    contactDescription={parsedResult.description}
+                />
             </li>
         })}
     </ul>
