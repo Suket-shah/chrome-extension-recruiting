@@ -1,14 +1,10 @@
 import React from 'react';
+import styles from "../styles/TitleModuleStyle";
 
-const titleModuleStyle = {
-    fontFamily: "Sans-Serif",
-    fontWeight: "semibold",
-    fontSize: "24px",
-}
 function TitleModule(props) {
     return (
         <div>
-            <h1 style={titleModuleStyle}>{props.title}</h1>
+            <h1 style={styles.titleModuleStyle}>{props.title}</h1>
         </div>
     )
 }

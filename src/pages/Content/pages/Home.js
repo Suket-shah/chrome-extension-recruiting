@@ -4,6 +4,7 @@ import TitleModule from "../modules/TitleModule";
 import SearchModule from "../modules/SearchModule";
 import ContactListModule from "../modules/ContactListModule";
 import ExitButtonModule from "../modules/ExitButtonModule";
+import RecruitGPTTitleModule from "../modules/RecruitGPTTitleModule";
 import queryCleaner from "../utils/QueryCleaner";
 import {GAPI, SearchCX} from "../utils/Constant";
 import {db} from "../utils/firebase";
@@ -15,6 +16,7 @@ import {doc, getDoc, FieldPath} from "firebase/firestore";
 const horizontalAlign = {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "space-between",
 }
 
 let jobFlag = false;
@@ -89,12 +91,9 @@ function Home(props) {
         }).then((response) => {
             return response.json();
         }).then((jsonResponse) => {
-            console.log(jsonResponse);
-            console.log("json response occured");
             if (jsonResponse.items === undefined || jsonResponse.items.length === 0) {
                 setQueryResults([]);
                 setIsLoadingQuery(false);
-                console.log("no results found");
                 return;
             }
             setQueryResults(jsonResponse.items);
@@ -140,8 +139,10 @@ function Home(props) {
             <div id={'insideFrameID'}>
                 <div style={horizontalAlign}>
                     <ExitButtonModule onWidthChange={props.onWidthChange}/>
-                    <TitleModule title={jobPostingTitle} />
+                    <RecruitGPTTitleModule/>
+                    <div style={{width: "30px"}}/>
                 </div>
+                <TitleModule title={jobPostingTitle} />
                 <SearchModule searchQuery={jobPostingTitle} setLoadingState={setIsLoadingQuery} setQueryResult={setQueryResults} searchHandler={searchHandler}/>
                 <ContactListModule isLoadingQuery={isLoadingQuery} queryResults={queryResults} tutorial={tutorial}/>
             </div>

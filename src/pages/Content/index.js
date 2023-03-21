@@ -19,7 +19,7 @@ if (testJobPostingPage()) {
 }
 
 const frameStyle = {
-    background: "#86888a",
+    background: "#86CAEE",
     height: "100%",
     width: initialWidth,
     position: "fixed",

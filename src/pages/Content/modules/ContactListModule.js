@@ -1,10 +1,6 @@
 import React from 'react';
 import ContactModule from "./ContactModule";
-
-const contactListModuleStyle = {
-    listStyleType: "none",
-    padding: "0px",
-}
+import styles from "../styles/ContactListModuleStyle";
 
 function punctuationRemover(str) {
     return str.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, '');
@@ -21,18 +17,15 @@ function occupationFinder(title) {
 }
 
 function imageUrlFinder(queryResult) {
-    let image_url = queryResult.pagemap.cse_image[0].src;
-    return image_url;
+    return queryResult.pagemap.cse_image[0].src;
 }
 
 function linkedinUrlFinder(queryResult) {
-    let linkedin_url = queryResult.link;
-    return linkedin_url;
+    return queryResult.link;
 }
 
 function descriptionFinder(queryResult) {
-    let description = queryResult.snippet;
-    return description;
+    return queryResult.snippet;
 }
 
 function queryParser(queryResult) {
@@ -55,7 +48,7 @@ function ContactListModule(props) {
     if (props.queryResults === null || props.queryResults.length === 0) {
         return <p>No results found</p>
     }
-    return <ul style={contactListModuleStyle}>
+    return <ul style={styles.contactModuleStyle}>
         {props.queryResults.map((result, i) => {
             const parsedResult = queryParser(result);
             return <li key={i}>

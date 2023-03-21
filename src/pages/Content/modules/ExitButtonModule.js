@@ -1,18 +1,9 @@
 import React from "react";
-
-const buttonStyle = {
-    textAlign: "left",
-    backgroundColor: "transparent",
-    border: "none",
-    cursor: "pointer",
-    outline: "none",
-    fontSize: "12px",
-    padding: "0px",
-}
+import styles from "../styles/ExitButtonModuleStyle";
 
 function exitButtonModule(props) {
     return (<div>
-        <button style= {buttonStyle} onClick={() => props.onWidthChange('1px', false)}>
+        <button style= {styles.buttonStyle} onClick={() => props.onWidthChange('1px', false)}>
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                  className="bi bi-x" viewBox="0 0 16 16" id="IconChangeColor">
                 <path

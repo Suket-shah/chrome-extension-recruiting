@@ -86,6 +86,10 @@ var options = {
         // },
       },
       {
+        test: /\.(png)$/,
+        loader: 'file-loader'
+      },
+      {
         test: /\.html$/,
         loader: 'html-loader',
         exclude: /node_modules/,
