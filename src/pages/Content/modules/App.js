@@ -25,8 +25,8 @@ function App(props) {
                             <Route path="/" element={<Home onWidthChange={props.onWidthChange}/>} ></Route>
                             <Route path="/userPref" element={<UserPref/>} ></Route>
                         </Route>
-                        <Route path="/login" element={<Login/>} setAuthToken={setAuthToken} setTest={setTest} test={test}/>
-                        <Route path="/signup" element={<Signup/>} setAuthToken={setAuthToken}/>
+                        <Route path="/login" element={<Login onWidthChange={props.onWidthChange}/>} setAuthToken={setAuthToken} setTest={setTest} test={test}/>
+                        <Route path="/signup" element={<Signup onWidthChange={props.onWidthChange}/>} setAuthToken={setAuthToken}/>
                     </Routes>
                 </section>
             </div>

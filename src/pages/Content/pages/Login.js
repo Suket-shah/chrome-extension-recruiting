@@ -5,11 +5,14 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import RecruitGPTTitleModule from "../modules/RecruitGPTTitleModule";
 import styles from "../styles/InputStyle";
+import ExitButtonModule from "../modules/ExitButtonModule";
+import horizontalAlign from "../styles/HeaderStyle";
 
 function Login(props) {
     const navigate = useNavigate();
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const [validLogin, setValidLogin] = React.useState(true);
 
     function onLogin(e) {
         e.preventDefault();
@@ -23,14 +26,17 @@ function Login(props) {
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
+                setValidLogin(false);
                 console.log(errorCode, errorMessage);
             });
     }
 
     return (
         <div>
-            <div>
+            <div style={horizontalAlign}>
+                <ExitButtonModule onWidthChange={props.onWidthChange}/>
                 <RecruitGPTTitleModule />
+                <div style={{width: "30px"}}/>
             </div>
             <section>
                 <p style={styles.welcomeStyle}>Welcome! Lets upgrade your job search.</p>
@@ -71,6 +77,7 @@ function Login(props) {
                         <button style={styles.buttonStyle} type="submit" onClick={onLogin} >
                             Login
                         </button>
+                        {!validLogin && <p style={styles.invalidStyle}>Invalid login credentials</p>}
                     </div>
                 </form>
 

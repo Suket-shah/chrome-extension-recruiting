@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {doc, getDoc, setDoc} from "firebase/firestore";
 import {db} from "../utils/firebase";
+import styles from "../styles/InputStyle";
 
 function UserPref(props) {
     const navigate = useNavigate();
@@ -12,8 +13,25 @@ function UserPref(props) {
 
     const [isLoading, setIsLoading] = useState(true);
 
+    const [validSchool, setValidSchool] = useState(true);
+    const [validMajor, setValidMajor] = useState(true);
+
     function onSubmit(e) {
         e.preventDefault()
+
+        // client side validation
+        if (school.length < 3) {
+            setValidSchool(false);
+            return;
+        }
+        setValidSchool(true);
+        if (major.length < 3) {
+            setValidMajor(false);
+            return;
+        }
+        setValidMajor(true);
+
+        // upload document
         const docRef = doc(db, "users", localStorage.getItem("recruitPlusUID"));
         setDoc(docRef, {
             school: {school},
@@ -23,9 +41,11 @@ function UserPref(props) {
             console.log("Document successfully written!");
             navigate("/");
         }).catch((error) => {
+            alert("Error uploading user preferences");
             console.error("Error writing document: ", error);
         });
     }
+
     // start the ping to the firestore to see if data is set.. in meantime, show loading screen
     // if data is set, then redirect to home page
     // if data is not set, then show the page
@@ -59,44 +79,58 @@ function UserPref(props) {
             <main>
                 <section>
                     <div>
-                        <p>Provide us some more details</p>
+                        <p style={styles.welcomeStyle}>Tell us about yourself</p>
                         <form>
-                            <div>
-                                <label htmlFor="school">
+                            <div style={styles.inputDivStyle}>
+                                <label
+                                    style={styles.labelStyle}
+                                    htmlFor="school">
                                     School
                                 </label>
                                 <input
                                     type="text"
-                                    placeholder="EX. The University of Texas at Austin"
-                                    required
+                                    placeholder="EX. UT Austin"
+                                    style={styles.inputStyle}
                                     value={school}
                                     onChange={(e) => setSchool(e.target.value)}
                                 />
+                                {!validSchool && <p style={styles.invalidStyle}>Must enter valid university name</p>}
                             </div>
-                            <div>
-                                <label htmlFor="major">
+                            <div style={styles.inputDivStyle}>
+                                <label
+                                    style={styles.labelStyle}
+                                    htmlFor="major">
                                     Major
                                 </label>
                                 <input
                                     type="text"
                                     placeholder="EX. Computer Science"
-                                    required
+                                    style={styles.inputStyle}
                                     value={major}
                                     onChange={(e) => setMajor(e.target.value)}
                                 />
+                                {!validMajor && <p style={styles.invalidStyle}>Major name must be at least 3 characters</p>}
                             </div>
-                            <div>
-                                <label htmlFor="Clubs or Organizations">
-                                    Clubs or Organizations Membership
+                            <div style={styles.inputDivStyle}>
+                                <label
+                                    style={styles.labelStyle}
+                                    htmlFor="Clubs or Organizations">
+                                    Clubs or Organizations
                                 </label>
                                 <input
                                     type="text"
                                     placeholder="EX. Bevo Beekeepers"
+                                    style={styles.inputStyle}
                                     value={clubs}
                                     onChange={(e) => setClubs(e.target.value)}
                                 />
                             </div>
-                            <button type="submit" onClick={onSubmit}> Next </button>
+                            <button
+                                style={styles.buttonStyle}
+                                type="submit"
+                                onClick={onSubmit}>
+                                Next
+                            </button>
                         </form>
                     </div>
                 </section>

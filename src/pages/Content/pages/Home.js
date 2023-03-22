@@ -10,14 +10,9 @@ import {GAPI, SearchCX} from "../utils/Constant";
 import {db} from "../utils/firebase";
 import {removeQuotes} from "../utils/QueryCleaner";
 import titleCleaner from "../utils/TitleCleaner";
+import horizontalAlign from "../styles/HeaderStyle";
 
 import {doc, getDoc, FieldPath} from "firebase/firestore";
-
-const horizontalAlign = {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-}
 
 let jobFlag = false;
 

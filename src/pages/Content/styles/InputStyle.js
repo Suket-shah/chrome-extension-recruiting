@@ -21,7 +21,7 @@ const styles = {
     buttonStyle: {
         width: "330px",
         height: "40px",
-        margin: "30px 0px",
+        margin: "30px 0px 5px 0px",
         padding: "5px 10px",
         background: "#0077B5",
         color: "white",
@@ -41,6 +41,12 @@ const styles = {
         fontSize: "30px",
         fontWeight: "200",
         color: "#313335",
+    },
+    invalidStyle: {
+        color: "red",
+        fontSize: "12px",
+        fontFamily: "Sans-Serif",
+        margin: "0px 15px",
     }
 }
 
