@@ -20,12 +20,15 @@ function Home(props) {
     let lastUrl = document.location.href;
 
     const [jobPostingTitle, setJobPostingTitle] = React.useState(null);
+    const [jobPostingDescription, setJobPostingDescription] = React.useState(null);
+    const [jobPostingCompany, setJobPostingCompany] = React.useState(null);
     const [isLoadingQuery, setIsLoadingQuery] = React.useState(true);
     const [queryResults, setQueryResults] = React.useState(null);
     const [tutorial, setTutorial] = React.useState(true);
     const [school, setSchool] = React.useState("");
     const [major, setMajor] = React.useState("");
     const [clubs, setClubs] = React.useState("");
+    const [name, setName] = React.useState("");
 
 
     async function setUserPref() {
@@ -39,14 +42,16 @@ function Home(props) {
             if (docRefResponse.exists()) {
                 const schoolField = removeQuotes(JSON.stringify(docRefResponse.get("school").school));
                 const majorField = removeQuotes(JSON.stringify(docRefResponse.get("major").major));
+                const nameField = removeQuotes(JSON.stringify(docRefResponse.get("name").name));
                 let clubField = "";
                 setSchool(schoolField);
                 setMajor(majorField);
+                setName(nameField);
                 if (docRefResponse.get(new FieldPath("clubs")) !== undefined) {
                     clubField = removeQuotes(JSON.stringify(docRefResponse.get("clubs").clubs));
                     setClubs(clubField);
                 }
-                return [schoolField, majorField, clubField];
+                return [nameField, schoolField, majorField, clubField];
             }
         } catch (e) {
             console.log("Error getting document for user preferences:", e);
@@ -98,11 +103,14 @@ function Home(props) {
         });
     }
 
+
     // setting up the observer to watch for URL changes
     new MutationObserver(async () => {
         const currentUrl = document.location.href;
         const currentJob = document.querySelector('.jobs-unified-top-card__job-title');
+        setJobPostingDescription(currentJob);
         const currentCompany = document.querySelector('.jobs-unified-top-card__company-name');
+        setJobPostingCompany(currentCompany);
 
         const frameVisibility = !(document.getElementById('sidePanelIframe').style.visibility === 'hidden');
 
@@ -139,7 +147,7 @@ function Home(props) {
                 </div>
                 <TitleModule title={jobPostingTitle} />
                 <SearchModule searchQuery={jobPostingTitle} setLoadingState={setIsLoadingQuery} setQueryResult={setQueryResults} searchHandler={searchHandler}/>
-                <ContactListModule isLoadingQuery={isLoadingQuery} queryResults={queryResults} tutorial={tutorial}/>
+                <ContactListModule name={name} school={school} major={major} jobTitle={jobPostingDescription} jobCompany={jobPostingCompany} isLoadingQuery={isLoadingQuery} queryResults={queryResults} tutorial={tutorial}/>
             </div>
         </div>
     )

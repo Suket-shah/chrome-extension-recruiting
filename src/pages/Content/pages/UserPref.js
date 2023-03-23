@@ -10,16 +10,23 @@ function UserPref(props) {
     const [school, setSchool] = useState('')
     const [major, setMajor] = useState('');
     const [clubs, setClubs] = useState('');
+    const [name, setName] = useState('');
 
     const [isLoading, setIsLoading] = useState(true);
 
     const [validSchool, setValidSchool] = useState(true);
     const [validMajor, setValidMajor] = useState(true);
+    const [validName, setValidName] = useState(true);
 
     function onSubmit(e) {
         e.preventDefault()
 
         // client side validation
+        if (name.length < 2) {
+            setValidName(false);
+            return;
+        }
+        setValidName(true);
         if (school.length < 3) {
             setValidSchool(false);
             return;
@@ -34,6 +41,7 @@ function UserPref(props) {
         // upload document
         const docRef = doc(db, "users", localStorage.getItem("recruitPlusUID"));
         setDoc(docRef, {
+            name: {name},
             school: {school},
             major: {major},
             clubs: {clubs}
@@ -81,6 +89,21 @@ function UserPref(props) {
                     <div>
                         <p style={styles.welcomeStyle}>Tell us about yourself</p>
                         <form>
+                            <div>
+                                <label
+                                    style={styles.labelStyle}
+                                    htmlFor="name">
+                                    Name
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder="EX. John Doe"
+                                    style={styles.inputStyle}
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                                {!validName && <p style={styles.invalidStyle}>Name must be at least 2 characters</p>}
+                            </div>
                             <div style={styles.inputDivStyle}>
                                 <label
                                     style={styles.labelStyle}

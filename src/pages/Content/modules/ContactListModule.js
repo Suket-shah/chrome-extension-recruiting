@@ -38,6 +38,7 @@ function queryParser(queryResult) {
     parsedResult.description = descriptionFinder(queryResult);
     return parsedResult
 }
+// TODO: add jobCompany by propogating it down.
 function ContactListModule(props) {
     if (props.tutorial) {
         return <p>Click on a job posting to see a list of contacts</p>
@@ -58,6 +59,11 @@ function ContactListModule(props) {
                     contactImage={parsedResult.image_url}
                     contactLinkedin={parsedResult.linkedin_url}
                     contactDescription={parsedResult.description}
+                    userName={props.name}
+                    userSchool={props.school}
+                    userMajor={props.major}
+                    jobTitle={props.jobTitle}
+                    jobCompany={props.jobCompany}
                 />
             </li>
         })}
