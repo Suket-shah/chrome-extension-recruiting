@@ -1,11 +1,11 @@
 {
-  "name": "chrome-extension-boilerplate-react",
+  "name": "RecruitGPT",
   "version": "5.0.4",
-  "description": "A chrome extension boilerplate built with React 18, Webpack 5, and Webpack Dev Server 4",
+  "description": "RecruitGPT improves your LinkedIn job search experience by finding connections and alumni at companies you're interested in.",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lxieyang/chrome-extension-boilerplate-react.git"
+    "url": "https://github.com/Suket-shah/chrome-extension-recruiting/tree/v2"
   },
   "scripts": {
     "build": "node utils/build.js",
