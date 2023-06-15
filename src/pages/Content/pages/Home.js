@@ -108,9 +108,7 @@ function Home(props) {
     new MutationObserver(async () => {
         const currentUrl = document.location.href;
         const currentJob = document.querySelector('.jobs-unified-top-card__job-title');
-        setJobPostingDescription(currentJob);
         const currentCompany = document.querySelector('.jobs-unified-top-card__company-name');
-        setJobPostingCompany(currentCompany);
 
         const frameVisibility = !(document.getElementById('sidePanelIframe').style.visibility === 'hidden');
 
@@ -127,6 +125,8 @@ function Home(props) {
             // ready to search
             jobFlag = true;
             setTutorial(false);
+            setJobPostingDescription(currentJob.innerText);
+            setJobPostingCompany(currentCompany.innerText);
             let displayJobString = currentJob.innerText + " at " + currentCompany.innerText;
             displayJobString = titleCleaner(displayJobString);
             setJobPostingTitle(displayJobString);
