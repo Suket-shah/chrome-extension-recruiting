@@ -1,0 +1,17 @@
+.entry-button {
+  position: fixed;
+  top: 2px;
+  right: 0;
+  width: 90px;
+  z-index: 9998;
+  background-color: #273963;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 3px 0 0 3px;
+  cursor: pointer;
+}
