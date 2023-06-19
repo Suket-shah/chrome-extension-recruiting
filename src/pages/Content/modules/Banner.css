@@ -13,6 +13,13 @@
   border: none;
   padding: 0;
   margin: 0;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.1s;
+}
+
+.exit-button:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .banner-title {

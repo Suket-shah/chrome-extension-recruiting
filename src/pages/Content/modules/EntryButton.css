@@ -3,6 +3,7 @@
   top: 2px;
   right: 0;
   width: 90px;
+  height: 47px;
   z-index: 9998;
   background-color: #273963;
   color: #ffffff;
@@ -14,4 +15,10 @@
   font-size: 12px;
   border-radius: 3px 0 0 3px;
   cursor: pointer;
+  transition: width 0.2s, height 0.2s;
+}
+
+.entry-button:hover {
+  width: 92px;
+  height: 48px;
 }
