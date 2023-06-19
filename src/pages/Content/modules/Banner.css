@@ -1,0 +1,23 @@
+.banner {
+  background: #273963;
+  color: #ffffff;
+  padding: 10px;
+  font-size: 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.exit-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.banner-title {
+  color: white;
+  font-size: 32px;
+  font-weight: 400;
+  padding-left: 18%;
+}

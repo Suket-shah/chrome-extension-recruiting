@@ -1,0 +1,11 @@
+.app-frame {
+  background: #F7FAFE;
+  height: 100%;
+  width: 375px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9999;
+  font-family: Inter, sans-serif;
+  display: none;
+}
