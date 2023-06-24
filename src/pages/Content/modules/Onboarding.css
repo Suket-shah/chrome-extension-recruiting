@@ -1,0 +1,87 @@
+.onboarding-title {
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+  color: #000000;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.input-title {
+  font-family: Inter, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 23px;
+  color: #000000;
+  margin-left: 8%;
+  margin-top: 5px;
+}
+
+.error-message {
+  font-family: Inter, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 23px;
+  color: red;
+  margin-left: 8%;
+}
+
+.input-field {
+  border-radius: 13px;
+  margin: 2px 5% 2px 5%;
+  height: 40px;
+  width: 90%;
+  padding: 5px 10px;
+  border: none;
+  outline: none;
+  font-family: Inter, sans-serif;
+}
+
+.onboarding-button {
+  color: #EDEDED;
+  background-color: #273963;
+  height: 40px;
+  width: 90%;
+  margin: 10px 5%;
+  border-radius: 13px;
+  border: none;
+  outline: none;
+}
+
+.onboarding-button:hover {
+  background-color: #273963;
+  opacity: 0.8;
+}
+
+.flex {
+  display: flex;
+  flex-direction: row;
+}
+hr {
+  width: 40%;
+  height: 2px;
+  border-bottom-width: 2px;
+}
+
+.margin-left-6 {
+  margin-left: 6%;
+}
+
+.margin-surrounding-10px {
+  margin: 0 10px;
+}
+
+.margin-top-20px {
+  margin-top: 20px;
+}
+
+.margin-top-30px {
+  margin-top: 30px;
+}
+
+.margin-top-15px {
+  margin-top: 15px;
+}
