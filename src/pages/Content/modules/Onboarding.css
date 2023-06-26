@@ -40,6 +40,10 @@
   font-family: Inter, sans-serif;
 }
 
+.password {
+  -webkit-text-security: disc;
+}
+
 .onboarding-button {
   color: #EDEDED;
   background-color: #273963;

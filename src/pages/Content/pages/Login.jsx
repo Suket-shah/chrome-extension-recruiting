@@ -1,8 +1,9 @@
 import React from "react";
 
 import {NavLink, useNavigate} from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { validateEmail } from "../utils/regex";
 
 import "../modules/Onboarding.css";
 
@@ -10,29 +11,44 @@ const Login = (props) => {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [validLogin, setValidLogin] = React.useState(true);
+  const [loginErrorMessage, setLoginErrorMessage] = React.useState("");
 
-  // TODO: Better Error Handeling
-  // TODO: Use Firebase Emulator Suite
-  // TODO: use monitorAuthState
-  // TODO: Get rid of storing the data in local storage completely
-  // TODO: move from .then .catch to async await
-  function onLogin(e) {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      navigate("/");
+    }
+  });
+
+  async function onLogin(e) {
     e.preventDefault();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        localStorage.setItem("recruitPlusAuthToken", JSON.stringify(user?.accessToken));
-        localStorage.setItem("recruitPlusUID", JSON.stringify(user?.uid));
-        props.setAuthToken(user?.accessToken);
-        navigate("/userPref"); // TODO: change this to main page
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        setValidLogin(false);
-        console.log(errorCode, errorMessage);
-      });
+
+    if (password.length < 8) {
+      setLoginErrorMessage("Invalid password");
+      return;
+    } else if (!validateEmail(email)) {
+      setLoginErrorMessage("Invalid email");
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      const errorMessage = error.message;
+      const errorCode = error.code;
+      if (errorCode === "auth/wrong-password") {
+        setLoginErrorMessage("Invalid password");
+      } else if (errorCode === "auth/user-not-found") {
+        setLoginErrorMessage("User not found");
+      } else if (errorCode === "auth/invalid-email") {
+        setLoginErrorMessage("Invalid email");
+      } else if (errorCode === "auth/missing-email") {
+        setLoginErrorMessage("Missing email");
+      } else if (errorCode === "auth/missing-password") {
+        setLoginErrorMessage("Missing password");
+      } else {
+        setLoginErrorMessage(errorMessage);
+      }
+    }
   }
 
   return (
@@ -59,14 +75,14 @@ const Login = (props) => {
             <input
               id="password"
               name="password"
-              className="input-field"
+              className="input-field password"
               required
-              placeholder="At least 8 characters"
+              placeholder="Secret Password"
               onChange={(e)=>setPassword(e.target.value)}
             />
           </div>
           <div className="margin-top-30px">
-            {!validLogin && <p className="error-message">Invalid login credentials</p>}
+            {(loginErrorMessage !== "") && <p className="error-message">{loginErrorMessage}</p>}
             <button className="onboarding-button" type="submit" onClick={onLogin} >
               Login
             </button>

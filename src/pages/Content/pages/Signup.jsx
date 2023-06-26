@@ -1,8 +1,9 @@
 import React from "react";
 
 import {NavLink, useNavigate} from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { validateEmail } from "../utils/regex";
 
 import "../modules/Onboarding.css";
 
@@ -10,26 +11,44 @@ function Signup(props) {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [validLogin, setValidLogin] = React.useState(true);
+  const [confirmPassword, setConfirmPassword] = React.useState("");
+  const [signupErrorMessage, setSignupErrorMessage] = React.useState("");
 
-  // TODO: Better Error Handeling
-  // TODO: Make character black out on password
-  function onLogin(e) {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      navigate("/userPref");
+    }
+  });
+
+  async function onSignup(e) {
     e.preventDefault();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        localStorage.setItem("recruitPlusAuthToken", JSON.stringify(user?.accessToken));
-        localStorage.setItem("recruitPlusUID", JSON.stringify(user?.uid));
-        props.setAuthToken(user?.accessToken);
-        navigate("/userPref");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        setValidLogin(false);
-        console.log(errorCode, errorMessage);
-      });
+
+    if (password.length < 8) {
+      setSignupErrorMessage("Weak Password Make it at least 8 characters");
+      return;
+    } else if (!validateEmail(email)) {
+      setSignupErrorMessage("Invalid email");
+      return;
+    } else if (password !== confirmPassword) {
+      setSignupErrorMessage("Passwords do not match");
+      return;
+    }
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      const errorMessage = error.message;
+      const errorCode = error.code;
+      if (errorCode === "auth/wrong-password") {
+        setSignupErrorMessage("Weak Password Make it at least 8 characters");
+      } else if (errorCode === "auth/missing-email") {
+        setSignupErrorMessage("Missing email");
+      } else if (errorCode === "auth/missing-password") {
+        setSignupErrorMessage("Missing password");
+      } else {
+        setSignupErrorMessage(errorMessage);
+      }
+    }
   }
 
   return (
@@ -56,7 +75,7 @@ function Signup(props) {
             <input
               id="password"
               name="password"
-              className="input-field"
+              className="input-field password"
               required
               placeholder="At least 8 characters"
               onChange={(e)=>setPassword(e.target.value)}
@@ -69,15 +88,15 @@ function Signup(props) {
             <input
               id="conf-password"
               name="conf-password"
-              className="input-field"
+              className="input-field password"
               required
               placeholder="Same as above"
-              onChange={(e)=>setPassword(e.target.value)}
+              onChange={(e)=>setConfirmPassword(e.target.value)}
             />
           </div>
           <div className="margin-top-30px">
-            {!validLogin && <p className="error-message">Invalid login credentials</p>}
-            <button className="onboarding-button" type="submit" onClick={onLogin} >
+            {(signupErrorMessage !== "") && <p className="error-message">{signupErrorMessage}</p>}
+            <button className="onboarding-button" type="submit" onClick={onSignup} >
               Sign Up
             </button>
           </div>
