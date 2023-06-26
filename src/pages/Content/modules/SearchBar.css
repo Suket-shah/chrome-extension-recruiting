@@ -1,0 +1,26 @@
+.search-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 10px;
+}
+
+.search-button {
+  padding-left: 5px;
+}
+
+.search-input {
+  background-color: #EDEDED;
+  border-radius: 13px;
+  height: 40px;
+  width: 90%;
+  padding: 5px 10px;
+  border: 0 solid;
+  outline: none;
+  font-family: Inter, sans-serif;
+}
+
+.search-input:focus {
+  outline: none;
+}
