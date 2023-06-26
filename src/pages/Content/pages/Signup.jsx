@@ -7,7 +7,7 @@ import { validateEmail } from "../utils/regex";
 
 import "../modules/Onboarding.css";
 
-function Signup(props) {
+const Signup = (props) => {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
