@@ -1,0 +1,45 @@
+.contactModule {
+  background-color: transparent;
+  padding: 10px 15px;
+  color: black;
+  font-family: Inter, sans-serif;
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
+}
+
+img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.name {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  cursor: pointer;
+
+}
+
+.occupation {
+  font-size: 18px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.description {
+  font-size: 12px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.leftMargin {
+  margin-left: 15px;
+}
+
+.underlineRemove {
+  text-decoration: none;
+}

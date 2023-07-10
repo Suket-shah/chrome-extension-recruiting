@@ -12,6 +12,6 @@ export const validateUrl = (url) => {
 
 // regex function to check if string is full name
 export const validateName = (name) => {
-  const re = /^[a-zA-Z]+ [a-zA-Z]+$/;
+  const re = /^[a-zA-Z]{2,} \s [a-zA-Z]{2,}$/;
   return re.test(name);
 }
