@@ -5,6 +5,21 @@
   font-family: Inter, sans-serif;
 }
 
+.generateText {
+  display: none;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.generateText:hover {
+  display: block;
+  opacity: 1;
+}
+
+.contactInfo:hover ~ .generateText {
+  display: block;
+  opacity: 1;
+}
+
 .flexRow {
   display: flex;
   flex-direction: row;
