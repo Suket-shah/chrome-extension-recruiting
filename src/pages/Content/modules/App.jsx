@@ -14,6 +14,8 @@ import './App.css';
 const App = () => {
   const [authToken, setAuthToken] = React.useState(localStorage.getItem("recruitPlusAuthToken"));
 
+
+
   return (
     <div className="app-frame">
       <Banner />

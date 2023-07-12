@@ -8,6 +8,8 @@ var webpack = require('webpack'),
 var { CleanWebpackPlugin } = require('clean-webpack-plugin');
 var ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 var ReactRefreshTypeScript = require('react-refresh-typescript');
+var NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+
 
 const ASSET_PATH = process.env.ASSET_PATH || '/';
 
@@ -127,6 +129,13 @@ var options = {
     extensions: fileExtensions
       .map((extension) => '.' + extension)
       .concat(['.js', '.jsx', '.ts', '.tsx', '.css']),
+    fallback: {
+      net: false,
+      fs: false,
+      tls: false,
+      request: false,
+      'child_process': false,
+    }
   },
   plugins: [
     isDevelopment && new ReactRefreshWebpackPlugin(),
@@ -134,6 +143,7 @@ var options = {
     new webpack.ProgressPlugin(),
     // expose and write the allowed env vars on the compiled bundle
     new webpack.EnvironmentPlugin(['NODE_ENV']),
+    new NodePolyfillPlugin(),
     new CopyWebpackPlugin({
       patterns: [
         {

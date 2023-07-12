@@ -10,7 +10,7 @@ function AllResultsModule(props) {
       <ul>
         {props.searchResults.map((result) => (
           <li key={result.link}>
-            <SingleResultModule result={result} />
+            <SingleResultModule result={result} bardQuery={props.bardQuery}/>
           </li>
         ))}
       </ul>

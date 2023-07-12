@@ -2,15 +2,17 @@ import React from "react";
 
 import GenerateTextButton from "./GenerateTextButton.jsx";
 import GenerateTextResult from "./GenerateTextResult.jsx";
+import secrets from "../../../../secrets.development";
 
 import "./SingleResultModule.css";
 
 function SingleResultModule(props) {
   const [generatedText, setGeneratedText] = React.useState("");
 
-  // TODO: connect to Bard API
-  function generateText() {
-    setGeneratedText("generated text aowiefja oawiejfaiowej aowiejfoiajw aowiejfaiowe f aoiwjefoiawj aowiej;awei aowije");
+  async function generateText() {
+    setGeneratedText("Generating...");
+    const response = await props.bardQuery("write a short story");
+    setGeneratedText(response);
   }
 
   function cleanName(name) {

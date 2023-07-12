@@ -27,6 +27,7 @@ ui-debug.log
 .history
 .idea
 .vscode
+/functions
 
 # secrets
 secrets.*.js
