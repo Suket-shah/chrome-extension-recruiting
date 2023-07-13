@@ -15,3 +15,8 @@ export const validateName = (name) => {
   const re = /^[a-zA-Z]{2,} \s [a-zA-Z]{2,}$/;
   return re.test(name);
 }
+
+// regex function to remove all ansi characters
+export const stripAnsi = (str) => {
+  return str.replace(/\u001b\[[0-9]{1,2}m/g, "");
+}

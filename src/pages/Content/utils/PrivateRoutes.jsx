@@ -23,18 +23,6 @@ function PrivateRoutes(props) {
     console.log("navigate to outlet");
     return <Navigate to="/" />;
   }
-  // if (props.authToken) {
-  //   getAuth().verifyIdToken(props.authToken).then((user) => {
-  //     console.log("verifying auth token", user);
-  //     if (user.isTokenValid) {
-  //       return <Outlet />;
-  //     } else {
-  //       return <Navigate to="/login" />;
-  //     }
-  //   });
-  // }
-
-  // return <Navigate to="/login" />;
 }
 
 export default PrivateRoutes;

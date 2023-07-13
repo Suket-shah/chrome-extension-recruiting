@@ -1,11 +1,12 @@
 import React from "react";
+import stripAnsi from "strip-ansi";
 
 import SearchBar from "../modules/SearchBar";
 import AllResultsModule from "../modules/AllResultsModule";
+import queryBuilder from "../utils/queryBuilder";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { auth, db } from "../utils/firebase";
+import { auth } from "../utils/firebase";
 
 import secrets from "../../../../secrets.development";
 
@@ -47,42 +48,19 @@ function Home(props) {
     }
   }
 
-  async function getPersonalData() {
-    console.log("getting personal data");
-    try {
-      const docRef = doc(db, "users", userId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        return data;
-      } else {
-        console.log("No such document!");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  // TODO: do not have any job data from the page yet.
-  async function getJobData() {
-    return "Google";
-  }
-
-  async function queryBuilder(targetName, targetOccupation, targetDescription) {
-    try {
-      // access via personalData.school and personalData.name
-      const personalData = await getPersonalData();
-      const jobData = await getJobData();
-      return `I am ${personalData.name} and I am a ${personalData.school} student. I am interested in ${jobData}. I found the linkedin profile of ${targetName} at ${targetOccupation}. Here is some more information about them: ${targetDescription}. Write a linkedin message to introduce me to them.`;
-    } catch (error) {
-      console.error(error);
-    }
+  // TODO: striipAnsi does not work on the output
+  function getOutput(result) {
+    const output_split_result = result.split("output");
+    const filters_split_result = output_split_result[1].split("filters");
+    const output = filters_split_result[0];
+    const removed_output = output.replace(/\\n/g, " ");
+    const final_output = stripAnsi(removed_output);
+    return final_output.substring(3, final_output.length - 5);
   }
 
   async function bardQuery(targetName, targetOccupation, targetDescription) {
     try {
-      // access via personalData.school and personalData.name
-      const queryText = await queryBuilder(targetName, targetOccupation, targetDescription);
+      const queryText = await queryBuilder(userId, targetName, targetOccupation, targetDescription);
       const response = await fetch(`http://127.0.0.1:5001/recruiterplus-28695/us-central1/bardquery?queryText=${encodeURIComponent(queryText)}`, {
         method: 'GET',
         headers: {
@@ -90,13 +68,8 @@ function Home(props) {
         },
       });
       const data = await response.json();
-      console.log(data.result)
       const result = data.result;
-      // console.log(result)
-      // const convertedResult = `{${result}}`
-      // const jsonData = JSON.parse(convertedResult);
-      // console.log(jsonData);
-      return "Suket Shah";
+      return getOutput(result);
     } catch (error) {
       console.error(error);
     }
