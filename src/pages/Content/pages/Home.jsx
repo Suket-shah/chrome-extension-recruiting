@@ -10,11 +10,15 @@ import { auth } from "../utils/firebase";
 
 import secrets from "../../../../secrets.development";
 
+let lastUrl = "";
 function Home(props) {
   const navigate = useNavigate();
   const [query, setQuery] = React.useState("");
   const [searchResults, setSearchResults] = React.useState([]);
+  const [jobPostingDescription, setJobPostingDescription] = React.useState("");
+  const [jobPostingCompany, setJobPostingCompany] = React.useState("");
   let userId = "";
+  let jobFlag = false;
 
   onAuthStateChanged(auth, (user) => {
     if (!user) {
@@ -57,6 +61,36 @@ function Home(props) {
     const final_output = stripAnsi(removed_output);
     return final_output.substring(3, final_output.length - 5);
   }
+
+
+  // setting up the observer to watch for URL changes
+  new MutationObserver(async () => {
+    const currentUrl = document.location.href;
+    const currentJob = document.querySelector('.jobs-unified-top-card__job-title');
+    const currentCompany = document.querySelector('.jobs-unified-top-card__primary-description .app-aware-link');
+
+    const frameVisibility = document.querySelector('.app-frame').style.display === 'block';
+
+    if (currentUrl !== lastUrl && currentJob && currentCompany) {
+      lastUrl = currentUrl;
+      if (currentUrl.includes("jobs")) {
+        document.querySelector('.app-frame').style.display = 'block';
+      }
+      if (currentJob.innerText !== "" && currentCompany.innerText !== "") {
+        // ready to search
+        setJobPostingDescription(currentJob.innerText);
+        setJobPostingCompany(currentCompany.innerText);
+        let displayJobString = currentJob.innerText + " at " + currentCompany.innerText;
+        console.log(displayJobString);
+        // displayJobString = titleCleaner(displayJobString);
+        // setJobPostingTitle(displayJobString);
+        // if (frameVisibility) {
+        //   const queryInput = "(" + currentCompany.innerText + ") AND (" + currentJob.innerText + ")";
+        //   await searchHandler(queryInput, true);
+        // }
+      }
+    }
+  }).observe(document, {subtree: true, childList: true});
 
   async function bardQuery(targetName, targetOccupation, targetDescription) {
     try {
