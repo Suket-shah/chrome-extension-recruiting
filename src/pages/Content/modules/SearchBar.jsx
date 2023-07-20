@@ -4,8 +4,9 @@ import './SearchBar.css';
 
 const SearchBar = (props) => {
   function onKeyPressQuery(event) {
+    event.preventDefault();
     if (event.key === 'Enter') {
-      props.executeQuery(event);
+      props.executeQuery();
     }
   }
 

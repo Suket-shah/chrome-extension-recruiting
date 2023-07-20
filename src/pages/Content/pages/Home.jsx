@@ -4,6 +4,7 @@ import stripAnsi from "strip-ansi";
 import SearchBar from "../modules/SearchBar";
 import AllResultsModule from "../modules/AllResultsModule";
 import queryBuilder from "../utils/queryBuilder";
+import searchQueryCleaner from "../utils/searchQueryCleaner";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../utils/firebase";
@@ -28,16 +29,23 @@ function Home(props) {
     }
   });
 
-  async function executeQuery(event) {
-    event.preventDefault();
+  async function executeQuery(manualQuery) {
     try {
+      let encodedQuery = "";
+      if (manualQuery) {
+        encodedQuery = encodeURIComponent(manualQuery);
+      } else {
+        encodedQuery = encodeURIComponent(query);
+      }
+      console.log(encodeURIComponent(query));
       const response = await fetch(
-        `https://customsearch.googleapis.com/customsearch/v1?cx=${secrets.SEARCH_CX}&num=10&q=${encodeURIComponent(query)}&key=${secrets.SEARCH_GAPI}`,
+        `https://customsearch.googleapis.com/customsearch/v1?cx=${secrets.SEARCH_CX}&num=10&q=${encodedQuery}&key=${secrets.SEARCH_GAPI}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
       const data = await response.json();
+      console.log(data);
 
       // TODO: need to handle this case better with new screen
       // no results available
@@ -52,7 +60,6 @@ function Home(props) {
     }
   }
 
-  // TODO: striipAnsi does not work on the output
   function getOutput(result) {
     const output_split_result = result.split("output");
     const filters_split_result = output_split_result[1].split("filters");
@@ -80,21 +87,22 @@ function Home(props) {
         // ready to search
         setJobPostingDescription(currentJob.innerText);
         setJobPostingCompany(currentCompany.innerText);
-        let displayJobString = currentJob.innerText + " at " + currentCompany.innerText;
-        console.log(displayJobString);
-        // displayJobString = titleCleaner(displayJobString);
-        // setJobPostingTitle(displayJobString);
-        // if (frameVisibility) {
-        //   const queryInput = "(" + currentCompany.innerText + ") AND (" + currentJob.innerText + ")";
-        //   await searchHandler(queryInput, true);
-        // }
+        let searchQuery = currentJob.innerText + " at " + currentCompany.innerText;
+        console.log(searchQuery);
+        // Query Cleaner
+        searchQuery = searchQueryCleaner(searchQuery);
+        // Adding Cleaned query to search bar
+        setQuery(searchQuery);
+        document.querySelector('.search-input').value = searchQuery;
+        // Executing search of the query
+        await executeQuery(searchQuery);
       }
     }
   }).observe(document, {subtree: true, childList: true});
 
   async function bardQuery(targetName, targetOccupation, targetDescription) {
     try {
-      const queryText = await queryBuilder(userId, targetName, targetOccupation, targetDescription);
+      const queryText = await queryBuilder(userId, targetName, targetOccupation, targetDescription, jobPostingCompany, jobPostingDescription);
       const response = await fetch(`http://127.0.0.1:5001/recruiterplus-28695/us-central1/bardquery?queryText=${encodeURIComponent(queryText)}`, {
         method: 'GET',
         headers: {

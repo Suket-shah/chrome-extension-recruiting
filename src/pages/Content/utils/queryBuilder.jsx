@@ -16,17 +16,16 @@ async function getPersonalData(userId) {
   }
 }
 
-// TODO: do not have any job data from the page yet.
-async function getJobData() {
-  return "Google";
+function getJobData(jobPostingCompany, jobPostingDescription) {
+  return jobPostingDescription + " at " + jobPostingCompany;
 }
 
-async function queryBuilder(userId, targetName, targetOccupation, targetDescription) {
+async function queryBuilder(userId, targetName, targetOccupation, targetDescription, jobPostingCompany, jobPostingDescription) {
   try {
     // access via personalData.school and personalData.name
     const personalData = await getPersonalData(userId);
-    const jobData = await getJobData();
-    return `I am ${personalData.name} and I am a ${personalData.school} student. I am interested in ${jobData}. I found the linkedin profile of ${targetName} at ${targetOccupation}. Here is some more information about them: ${targetDescription}. Write a linkedin message to introduce me to them.`;
+    const jobData = getJobData(jobPostingCompany, jobPostingDescription);
+    return `I am ${personalData.name} and I am a ${personalData.school} student. I am interested in being a ${jobData}. I found the linkedin profile of ${targetName} at ${targetOccupation}. Here is some more information about them: ${targetDescription}. Write a linkedin message to introduce me to them.`;
   } catch (error) {
     console.error(error);
   }
