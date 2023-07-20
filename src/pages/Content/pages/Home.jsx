@@ -37,7 +37,7 @@ function Home(props) {
       } else {
         encodedQuery = encodeURIComponent(query);
       }
-      console.log(encodeURIComponent(query));
+      console.log("query" + encodedQuery);
       const response = await fetch(
         `https://customsearch.googleapis.com/customsearch/v1?cx=${secrets.SEARCH_CX}&num=10&q=${encodedQuery}&key=${secrets.SEARCH_GAPI}`,
         {
@@ -103,6 +103,7 @@ function Home(props) {
   async function bardQuery(targetName, targetOccupation, targetDescription) {
     try {
       const queryText = await queryBuilder(userId, targetName, targetOccupation, targetDescription, jobPostingCompany, jobPostingDescription);
+      console.log(queryText);
       const response = await fetch(`http://127.0.0.1:5001/recruiterplus-28695/us-central1/bardquery?queryText=${encodeURIComponent(queryText)}`, {
         method: 'GET',
         headers: {
