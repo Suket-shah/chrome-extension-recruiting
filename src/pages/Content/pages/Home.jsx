@@ -3,6 +3,7 @@ import stripAnsi from "strip-ansi";
 
 import SearchBar from "../modules/SearchBar";
 import AllResultsModule from "../modules/AllResultsModule";
+import Footbar from "../modules/Footbar";
 import queryBuilder from "../utils/queryBuilder";
 import searchQueryCleaner from "../utils/searchQueryCleaner";
 import { useNavigate } from "react-router-dom";
@@ -122,6 +123,7 @@ function Home(props) {
     <div>
       <SearchBar setQuery={setQuery} executeQuery={executeQuery}/>
       <AllResultsModule searchResults={searchResults} bardQuery={bardQuery}/>
+      <Footbar />
     </div>
   );
 }

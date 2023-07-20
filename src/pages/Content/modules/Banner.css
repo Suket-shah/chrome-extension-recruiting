@@ -18,9 +18,6 @@
   transition: background-color 0.1s;
 }
 
-.exit-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
 
 .banner-title {
   color: white;
