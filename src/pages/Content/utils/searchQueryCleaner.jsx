@@ -7,6 +7,7 @@ function searchQueryCleaner(query) {
   query = removeIntern(query);
   query = removeCoop(query);
   query = removePunctuation(query);
+  query = removeDoubleSpaces(query);
   return query;
 }
 
@@ -40,6 +41,10 @@ function removeCoop(query) {
 
 function removePunctuation(query) {
   return query.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, '');
+}
+
+function removeDoubleSpaces(query) {
+  return query.replace(/\s{2,}/g, " ");
 }
 
 export default searchQueryCleaner;
