@@ -26,7 +26,7 @@ function UserPreference(props) {
   async function onSubmitPreferences(e) {
     e.preventDefault();
 
-    if (validateName(name)) {
+    if (!validateName(name)) {
       setErrorMessage("Invalid name. Enter your full name.");
       return;
     } else if (school.length <= 2) {

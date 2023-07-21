@@ -5,6 +5,7 @@ import Login from "../pages/Login.jsx";
 import Signup from "../pages/Signup.jsx";
 import Home from "../pages/Home.jsx";
 import UserPreference from "../pages/UserPreference.jsx";
+import Settings from "../pages/Settings.jsx";
 import { auth as firebaseAuth } from "../utils/firebase.jsx";
 
 import Banner from './Banner.jsx';
@@ -27,6 +28,7 @@ const App = () => {
             <Route path="/userPref" element={<UserPreference />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/settings" element={<Settings />} />
           </Routes>
         </section>
       </Router>

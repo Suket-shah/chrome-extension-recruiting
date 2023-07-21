@@ -13,7 +13,9 @@ export const validateUrl = (url) => {
 // regex function to check if string is full name
 export const validateName = (name) => {
   const re = /^[a-zA-Z]{2,} \s [a-zA-Z]{2,}$/;
-  return re.test(name);
+  const re2 = /^[a-z ,.'-]+$/i;
+  const re3 = /^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)/;
+  return re3.test(name);
 }
 
 // regex function to remove all ansi characters
